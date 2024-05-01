@@ -24,7 +24,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb)); */
-    background: #50dde8;
+    background-color: #50dde8;
 }
 
 @layer utilities {
@@ -38,6 +38,6 @@ body {
   .sm\:bg-responsive__main1 {
     background-size: 100% auto;
     background-repeat: no-repeat;
-    background-image: url('/cover.jpeg');
+    /* background-image: url('/cover.jpeg'); */
   }
 }

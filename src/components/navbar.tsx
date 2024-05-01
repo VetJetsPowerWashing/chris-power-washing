@@ -9,8 +9,8 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 block z-10">
-        <div className="flex items-center justify-between p-5 bg-transparent flex-row-reverse">
+      <nav className="sticky top-0 block z-50">
+        <div className="flex items-center justify-between p-5 bg-transparent flex-row-reverse sm:flex-row">
           <div
             className="px-4 cursor-pointer md:hidden"
             onClick={() => {
@@ -51,6 +51,17 @@ export default function Navbar() {
               height={50}
               priority
             />
+          </div>
+          <div className="flex">
+            <Link href="/">
+              <div className="p-2">Home</div>
+            </Link>
+            <Link href="/about">
+              <div className="p-2">About</div>
+            </Link>
+            <Link href="/quote">
+              <div className="p-2">Quote</div>
+            </Link>
           </div>
         </div>
       </nav>
