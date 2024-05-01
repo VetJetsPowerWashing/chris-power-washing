@@ -52,7 +52,7 @@ export default function Navbar() {
               priority
             />
           </div>
-          <div className="flex">
+          <div className="hidden sm:flex">
             <Link href="/">
               <div className="p-2">Home</div>
             </Link>

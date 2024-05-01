@@ -38,7 +38,7 @@ export default function Quote() {
   return (
     <main className="sm:min-h-[calc(100vh-269px)] min-h-[calc(100vh-248px)] content-center">
       <div className="container mx-auto relative">
-        <div className="max-w-md mx-auto bg-white pb-40">
+        <div className="max-w-md mx-auto bg-white sm:rounded-lg sm:mb-52">
           <div className="p-4">
             <div className="flex justify-center">
               <Image
