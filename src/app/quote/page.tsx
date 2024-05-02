@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 const services = [
@@ -12,10 +13,11 @@ const services = [
 ];
 
 export default function Quote() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
-    serviceType: "",
-    details: "",
+    serviceType: 0,
+    details: "1 story",
     address: "",
     extraNotes: "",
   });
@@ -24,17 +26,27 @@ export default function Quote() {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === "serviceType") {
+      setFormData({
+        ...formData,
+        [name]: Number(value),
+        details: services[Number(value)].value[0],
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     // Here you can add your logic to handle form submission
     console.log(formData);
+    router.push("/thankyou");
   };
+
   return (
     <main className="sm:min-h-[calc(100vh-269px)] min-h-[calc(100vh-248px)] content-center">
       <div className="container mx-auto relative">

@@ -1,3 +1,6 @@
+"use client";
+import { sendGAEvent } from "@next/third-parties/google";
+
 export default function Footer() {
   return (
     <footer className="p-5 bg-black bottom-0 left-0 w-full relative sm:fixed">
@@ -16,6 +19,9 @@ export default function Footer() {
             <a
               className="m-0 max-w-[30ch] text-sm opacity-50"
               href="tel:+12014770965"
+              onClick={() =>
+                sendGAEvent({ event: "conversion", value: "tel:+12014770965" })
+              }
             >
               201-477-0965
             </a>
