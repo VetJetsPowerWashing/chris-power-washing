@@ -14,10 +14,6 @@ const services = [
   { id: 6, type: "Window Cleaning" },
   { id: 7, type: "Other" },
 ];
-const mailer = new Mailjet({
-  apiKey: process.env.MJ_APIKEY_PUBLIC || "",
-  apiSecret: process.env.MJ_APIKEY_PRIVATE || "",
-});
 
 export default function Quote() {
   const router = useRouter();
@@ -55,6 +51,15 @@ export default function Quote() {
       });
     }
   };
+
+  if (!process.env.MJ_APIKEY_PUBLIC || !process.env.MJ_APIKEY_PRIVATE) {
+    throw new Error("Mailjet API keys are missing");
+  }
+
+  const mailer = new Mailjet({
+    apiKey: process.env.MJ_APIKEY_PUBLIC || "",
+    apiSecret: process.env.MJ_APIKEY_PRIVATE || "",
+  });
 
   const sendEmail = async () => {
     try {
