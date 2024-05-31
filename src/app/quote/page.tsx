@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import Mailjet from "node-mailjet";
 import { ChangeEvent, useState } from "react";
 
 const services = [
@@ -15,14 +14,24 @@ const services = [
   { id: 7, type: "Other" },
 ];
 
-const mailer = new Mailjet({
-  apiKey: process.env.MJ_APIKEY_PUBLIC || "",
-  apiSecret: process.env.MJ_APIKEY_PRIVATE || "",
-});
+type FormDataState = {
+  name: string;
+  serviceType: number[];
+  address: string;
+  extraNotes: string;
+  dateTime: Date;
+};
+
+const Loader = () => (
+  <div className="flex justify-center items-center">
+    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+  </div>
+);
 
 export default function Quote() {
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<FormDataState>({
     name: "",
     serviceType: [0],
     address: "",
@@ -57,43 +66,32 @@ export default function Quote() {
     }
   };
 
+  const formBuilder = () => {
+    const finalForm = new FormData();
+    finalForm.append("name", formData.name);
+    finalForm.append("address", formData.address);
+    finalForm.append("dateTime", formData.dateTime.toISOString());
+    finalForm.append(
+      "serviceType",
+      formData.serviceType.map((id) => services[id].type).join(", ") || "None"
+    );
+    finalForm.append("extraNotes", formData.extraNotes);
+
+    return finalForm;
+  };
+
   const sendEmail = async () => {
+    setLoading(true);
     try {
-      const mail = mailer.post("send", { version: "v3.1" }).request({
-        Messages: [
-          {
-            From: {
-              Email: "purepressurewashingllc@gmail.com",
-              Name: "Vet Jets PW",
-            },
-            To: [
-              {
-                // Email: "purepressurewashingllc1@gmail.com",
-                Email: "mdelacruz1021@gmail.com",
-                Name: "Task Force 1",
-              },
-            ],
-            Subject: "New Quote Request",
-            TemplateID: 6012668,
-            Variables: {
-              FULL_NAME: formData.name,
-              ADDRESS: formData.address,
-              DATE_TIME: formData.dateTime,
-              SERVICES:
-                formData.serviceType
-                  .map((id) => services[id].type)
-                  .join(", ") || "None",
-              NOTES: formData.extraNotes,
-            },
-            TemplateLanguage: true,
-          },
-        ],
-      });
-      return await mail.then((result) => {
-        console.log(result.body);
+      await fetch(`/api/send-quote`, {
+        method: "POST",
+        body: formBuilder(),
+        redirect: "follow",
       });
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
   const handleSubmit = (e: any) => {
@@ -125,111 +123,115 @@ export default function Quote() {
               Fill out the details and we&apos;ll get you to a specialized
               veteran promptly
             </p>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label
-                  htmlFor="name"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Full Name:
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Your Full Name"
-                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="address"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Address:
-                </label>
-                <input
-                  type="text"
-                  id="address"
-                  name="address"
-                  placeholder="Your Address"
-                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={formData.address}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="quoteDate"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Quote Date and Time:
-                </label>
-                <input
-                  aria-label="Date and time"
-                  type="datetime-local"
-                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  onChange={handleChange}
-                  value={formData.dateTime.toISOString().slice(0, 16)}
-                />
-              </div>
-              <div className="mb-6">
-                <label
-                  htmlFor="serviceType"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Services:
-                </label>
-                {services.map((service) => (
-                  <div key={service.id}>
-                    <input
-                      type="checkbox"
-                      id={service.id.toString()}
-                      name="serviceType"
-                      value={service.id}
-                      className="mr-2 leading-tight"
-                      checked={formData.serviceType
-                        .toString()
-                        .includes(service.id.toString())}
-                      onChange={handleChange}
-                    />
-                    <label
-                      htmlFor={service.id.toString()}
-                      className="text-gray-700"
-                    >
-                      {service.type}
-                    </label>
-                  </div>
-                ))}
-              </div>
-              <div className="mb-6">
-                <label
-                  htmlFor="message"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Additional Notes:
-                </label>
-                <textarea
-                  id="extraNotes"
-                  name="extraNotes"
-                  rows={4}
-                  placeholder="Extra Details and Notes"
-                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={formData.extraNotes}
-                  onChange={handleChange}
-                ></textarea>
-              </div>
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                  Send
-                </button>
-              </div>
-            </form>
+            {loading ? (
+              <Loader />
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                  <label
+                    htmlFor="name"
+                    className="block text-gray-700 font-bold mb-2"
+                  >
+                    Full Name:
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Your Full Name"
+                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="address"
+                    className="block text-gray-700 font-bold mb-2"
+                  >
+                    Address:
+                  </label>
+                  <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    placeholder="Your Address"
+                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={formData.address}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="quoteDate"
+                    className="block text-gray-700 font-bold mb-2"
+                  >
+                    Quote Date and Time:
+                  </label>
+                  <input
+                    aria-label="Date and time"
+                    type="datetime-local"
+                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    onChange={handleChange}
+                    value={formData.dateTime.toISOString().slice(0, 16)}
+                  />
+                </div>
+                <div className="mb-6">
+                  <label
+                    htmlFor="serviceType"
+                    className="block text-gray-700 font-bold mb-2"
+                  >
+                    Services:
+                  </label>
+                  {services.map((service) => (
+                    <div key={service.id}>
+                      <input
+                        type="checkbox"
+                        id={service.id.toString()}
+                        name="serviceType"
+                        value={service.id}
+                        className="mr-2 leading-tight"
+                        checked={formData.serviceType
+                          .toString()
+                          .includes(service.id.toString())}
+                        onChange={handleChange}
+                      />
+                      <label
+                        htmlFor={service.id.toString()}
+                        className="text-gray-700"
+                      >
+                        {service.type}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                <div className="mb-6">
+                  <label
+                    htmlFor="message"
+                    className="block text-gray-700 font-bold mb-2"
+                  >
+                    Additional Notes:
+                  </label>
+                  <textarea
+                    id="extraNotes"
+                    name="extraNotes"
+                    rows={4}
+                    placeholder="Extra Details and Notes"
+                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={formData.extraNotes}
+                    onChange={handleChange}
+                  ></textarea>
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    type="submit"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  >
+                    Send
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>
