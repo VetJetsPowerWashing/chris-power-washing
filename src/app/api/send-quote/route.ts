@@ -31,7 +31,8 @@ export const POST = async function (req: NextRequest) {
       Messages: [
         {
           From: {
-            Email: "purepressurewashingllc@gmail.com",
+            // Email: "purepressurewashingllc1@gmail.com",
+            Email: "mdelacruz1021@gmail.com",
             Name: "Vet Jets PW",
           },
           To: [

@@ -43,9 +43,9 @@ export default function Footer() {
             </svg>
             <a
               className="m-0 max-w-[30ch] text-sm opacity-50"
-              href="mailto:purepressurewashingllc@gmail.com"
+              href="mailto:purepressurewashingllc1@gmail.com"
             >
-              purepressurewashingllc@gmail.com
+              purepressurewashingllc1@gmail.com
             </a>
           </p>
         </div>
