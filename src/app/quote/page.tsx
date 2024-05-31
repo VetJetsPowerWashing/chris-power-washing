@@ -98,10 +98,8 @@ export default function Quote() {
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    // Here you can add your logic to handle form submission
-
     sendEmail();
-    // router.push("/thankyou");
+    router.push("/thankyou");
   };
 
   return (

@@ -25,6 +25,7 @@ export const POST = async function (req: NextRequest) {
   }
 
   const { name, address, dateTime, serviceType, extraNotes } = values;
+  console.log(values);
 
   try {
     const mail = mailer.post("send", { version: "v3.1" }).request({
