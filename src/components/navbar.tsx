@@ -1,11 +1,24 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const navRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const checkScroll = () => {
+      setIsScrolled(window?.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", checkScroll);
+
+    return () => {
+      window.removeEventListener("scroll", checkScroll);
+    };
+  }, []);
 
   return (
     <>
@@ -22,7 +35,7 @@ export default function Navbar() {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              className="w-6 h-6"
+              className={`w-6 h-6 ${isScrolled ? "text-black" : ""}`}
             >
               <path
                 strokeLinecap="round"
