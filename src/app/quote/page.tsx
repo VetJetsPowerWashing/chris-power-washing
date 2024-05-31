@@ -15,8 +15,8 @@ const services = [
   { id: 7, type: "Other" },
 ];
 const mailer = new Mailjet({
-  apiKey: process.env.MJ_APIKEY_PUBLIC,
-  apiSecret: process.env.MJ_APIKEY_PRIVATE,
+  apiKey: process.env.MJ_APIKEY_PUBLIC || "",
+  apiSecret: process.env.MJ_APIKEY_PRIVATE || "",
 });
 
 export default function Quote() {
