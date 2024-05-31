@@ -17,6 +17,15 @@ export const POST = async function (req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const values: Record<string, string> = {};
+  const entries = formData.entries();
+
+  for (const [key, value] of Array.from(entries)) {
+    values[key] = value.toString();
+  }
+
+  const { name, address, dateTime, serviceType, extraNotes } = values;
+
   try {
     const mail = mailer.post("send", { version: "v3.1" }).request({
       Messages: [
@@ -35,13 +44,11 @@ export const POST = async function (req: NextRequest) {
           Subject: "New Quote Request",
           TemplateID: 6012668,
           Variables: {
-            FULL_NAME: formData.name,
-            ADDRESS: formData.address,
-            DATE_TIME: formData.dateTime,
-            SERVICES:
-              formData.serviceType.map((id) => services[id].type).join(", ") ||
-              "None",
-            NOTES: formData.extraNotes,
+            FULL_NAME: name,
+            ADDRESS: address,
+            DATE_TIME: dateTime,
+            SERVICES: serviceType,
+            NOTES: extraNotes,
           },
           TemplateLanguage: true,
         },

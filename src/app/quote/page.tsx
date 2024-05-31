@@ -70,7 +70,9 @@ export default function Quote() {
     const finalForm = new FormData();
     finalForm.append("name", formData.name);
     finalForm.append("address", formData.address);
-    finalForm.append("dateTime", formData.dateTime.toISOString());
+    const readableDate = formData.dateTime.toLocaleDateString();
+    const readableTime = formData.dateTime.toLocaleTimeString();
+    finalForm.append("dateTime", `${readableDate} ${readableTime}`);
     finalForm.append(
       "serviceType",
       formData.serviceType.map((id) => services[id].type).join(", ") || "None"
@@ -97,7 +99,7 @@ export default function Quote() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     // Here you can add your logic to handle form submission
-    console.log(formData);
+
     sendEmail();
     // router.push("/thankyou");
   };
