@@ -149,6 +149,13 @@ export default function Home() {
           </div>
         ))}
       </div>
+      <div className="bg-blue-500 text-white text-center p-4 leading-relaxed font-semibold rounded-lg shadow-md mt-5">
+        <p>From house washes to resanding, we take care of it all!</p>
+        <p>Your satisfaction is our number 1 priority!</p>
+        <button className="mt-4 bg-white text-blue-500 font-bold py-2 px-4 rounded hover:bg-blue-100 transition-colors">
+          Request a Free Quote Today!
+        </button>
+      </div>
       <div className="fixed bg-red-500 z-50 py-1 px-4 border-black border right-0 bottom-40 sm:right-auto sm:bottom-auto sm:top-0 sm:left-1/2 sm:-translate-x-1/2 sm:translate-y-0 sm:max-w-xs">
         <a
           href="tel:+12014770965"
