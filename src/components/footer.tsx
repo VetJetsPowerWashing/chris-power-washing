@@ -3,7 +3,7 @@ import { sendGAEvent } from "@next/third-parties/google";
 
 export default function Footer() {
   return (
-    <footer className="p-5 bg-black bottom-0 left-0 w-full relative sm:fixed">
+    <footer className="p-5 bg-black bottom-0 left-0 w-full relative">
       <div className="flex">
         <div className="flex-1">
           <p className="text-left">

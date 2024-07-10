@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <GoogleTagManager gtmId="AW-10945209180" />
-      <body className={anton.className}>
+      <body className={`${anton.className} flex flex-col min-h-screen`}>
         <Navbar />
         {children}
         <Footer />

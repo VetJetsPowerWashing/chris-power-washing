@@ -25,7 +25,6 @@ export const POST = async function (req: NextRequest) {
   }
 
   const { name, address, dateTime, serviceType, extraNotes } = values;
-  console.log(values);
 
   try {
     const mail = mailer.post("send", { version: "v3.1" }).request({
@@ -33,7 +32,7 @@ export const POST = async function (req: NextRequest) {
         {
           From: {
             // Email: "purepressurewashingllc1@gmail.com",
-            Email: "mdelacruz1021@gmail.com",
+            Email: "mikedlc1021@gmail.com",
             Name: "Vet Jets PW",
           },
           To: [
