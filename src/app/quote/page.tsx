@@ -29,7 +29,7 @@ export default function Quote() {
               width="100%"
               height="1800"
               scrolling="no"
-              frameborder="0"
+              frameBorder="0"
               allowTransparency
               style={{ border: "none", overflow: "hidden" }}
             />
