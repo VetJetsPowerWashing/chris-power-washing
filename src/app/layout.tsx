@@ -1,6 +1,6 @@
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
-import Script from 'next/third-parties'
+import Script from 'next/script'
 import type { Metadata } from "next";
 import { Anton } from "next/font/google";
 import "./globals.css";
