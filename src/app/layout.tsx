@@ -31,7 +31,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
-        <Script>{`
+        <Script id="ga-tel">{`
           window.addEventListener('click', function(e) {
             if(e.target.closest('[href*="tel:"]')){
             gtag('event', 'conversion', {'send_to': 'AW-10945209180/ARgjCPb82cgZENzGiuMo'});
