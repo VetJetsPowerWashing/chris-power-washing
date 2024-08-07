@@ -1,5 +1,6 @@
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
+import Script from 'next/third-parties'
 import type { Metadata } from "next";
 import { Anton } from "next/font/google";
 import "./globals.css";
@@ -18,10 +19,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-10945209180"/>
+      <Script id="gtag">{`  
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-10945209180');
+  `}</Script>
       <body className={`${anton.className} flex flex-col min-h-screen`}>
         <Navbar />
         {children}
         <Footer />
+        <Script>{`
+          window.addEventListener('click', function(e) {
+            if(e.target.closest('[href*="tel:"]')){
+            gtag('event', 'conversion', {'send_to': 'AW-10945209180/ARgjCPb82cgZENzGiuMo'});
+          }
+        });
+  `}</Script>
       </body>
     </html>
   );
