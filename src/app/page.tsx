@@ -163,15 +163,11 @@ export default function Home() {
       <div className="fixed bg-red-500 z-50 py-1 px-4 border-black border right-0 bottom-40 sm:right-auto sm:bottom-auto sm:top-0 sm:left-1/2 sm:-translate-x-1/2 sm:translate-y-0 sm:max-w-xs">
         <a
           href="tel:+12014770965"
-          onClick={() =>
-            sendGAEvent({ event: "conversion", value: "tel:+12014770965" })
-          }
         >
           201-477-0965
         </a>
         <div>Call today!</div>
       </div>
-      <GoogleAnalytics gaId="AW-10945209180/QpeuCN3Rh6EZENzGiuMo" />
     </main>
   );
 }
