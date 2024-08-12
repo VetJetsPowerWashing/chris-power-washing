@@ -1,6 +1,7 @@
 import Image from "next/image";
+import Script from "next/script";
 
-export default function Home() {
+export default function ThankYou() {
   return (
     <main className="min-h-[calc(100vh-248px)] content-center">
       <div className="flex justify-center items-center overflow-hidden justify-items-center sm:grid sm:bg-responsive__main1">
@@ -15,10 +16,9 @@ export default function Home() {
           You&apos;ll hear from us shortly...
         </p>
       </div>
-      <!-- Event snippet for Quote Thank You page conversion page -->
-<script>
-  gtag('event', 'conversion', {'send_to': 'AW-10945209180/aeINCPGbiMoZENzGiuMo'});
-</script>
+      <Script id="ga-tel">{`
+      gtag('event', 'conversion', {'send_to': 'AW-10945209180/aeINCPGbiMoZENzGiuMo'});
+  `}</Script>
     </main>
   );
 }
