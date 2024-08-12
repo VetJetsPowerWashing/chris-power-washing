@@ -15,6 +15,10 @@ export default function Home() {
           You&apos;ll hear from us shortly...
         </p>
       </div>
+      <!-- Event snippet for Quote Thank You page conversion page -->
+<script>
+  gtag('event', 'conversion', {'send_to': 'AW-10945209180/aeINCPGbiMoZENzGiuMo'});
+</script>
     </main>
   );
 }
