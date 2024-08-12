@@ -38,6 +38,10 @@ export default function RootLayout({
           }
         });
   `}</Script>
+        <!-- Event snippet for Quote Thank You page conversion page -->
+<script>
+  gtag('event', 'conversion', {'send_to': 'AW-10945209180/aeINCPGbiMoZENzGiuMo'});
+</script>
       </body>
     </html>
   );
