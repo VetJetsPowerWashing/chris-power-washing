@@ -8,7 +8,7 @@ import "./globals.css";
 const anton = Anton({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
-  title: "VetJetsPowerWashing",
+  title: "Vet Jets Power Washing",
   description: "Power washing services in the greater Northern Jersey area.",
 };
 
